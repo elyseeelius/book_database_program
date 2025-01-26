@@ -15,11 +15,11 @@ class Book(Base):
     id = Column(Integer, primary_key=True)
     title = Column('Title', String)
     author = Column('Author', String)
-    publishe_date = Column('Published',Date)
+    published_date = Column('Published',Date)
     price = Column('Price', Integer)
 
     def __repr__(self):
-        return f'Title:{self.title} Author: {self.author}, Published:{self.publishe_date} Price:{self.price}'
+        return f'Title: {self.title} Author: {self.author}, Published: {self.published_date} Price: {self.price}'
 # Create a databas
 # books.db
 # create a model
