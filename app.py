@@ -60,6 +60,28 @@ def clean_price(price_str):
          return int(price_float * 100)
 
 
+def clean_id(id_str, options):
+    try:
+        book_id = int(id_str)
+    except ValueError:
+        input('''
+                \n****** ID ERROR ******
+                \r The id should be a number.
+                \r Press enter to try again
+                \r**************************''')
+        return
+    else:
+        if book_id in options:  
+            return book_id
+        else:
+            input(f'''
+                \n****** ID ERROR ******
+                \r Options: {options}
+                \r Press enter to try again
+                \r**************************''')
+            return
+
+
 
 
 def add_csv():
@@ -107,7 +129,23 @@ def app():
             input("Press enter to enter to the main menu. ")
         elif choice == '3':
             # view books
-            pass
+            id_options = []
+            for book in session.query(Book):
+                id_options.append(book.id)
+            id_error = True
+            while id_error:
+                id_choice = input(f"""
+                        \nId Options: {id_options}
+                        \rBook id: """)
+                id_choice = clean_id(id_choice, id_options)
+                if type(id_choice) == int:
+                        id_error = False
+            the_book = session.query(Book).filter(Book.id== id_choice).first()
+            print(f"""
+                \n{the_book.title} by {the_book.author}
+                \rPublished: {the_book.published_date}
+                \rPrice: ${the_book.price / 100}""")
+                input("\nPresss enter to go back to the main menu")
         elif choice == '4':
             # search book
             pass
