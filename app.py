@@ -186,7 +186,7 @@ def app():
             print(f"""
                 \n{the_book.title} by {the_book.author}
                 \rPublished: {the_book.published_date}
-                \rPrice: ${the_book.price / 100}""")
+                \rPrice: ${the_book.price/100}""")
             sub_choice = submenu()
             if sub_choice == '1':
                 # edit
@@ -206,7 +206,17 @@ def app():
 
         elif choice == '4':
             # search book
-            pass
+            oldest_book = session.query(Book).order_by(Book.published_date).first()
+            newest_book = session.query(Book).order_by(Book.published_date.desc()).first()
+            total_books = session.query(Book).count()
+            python_books = session.query(Book).filter(Book.title.like('%python%')).count()
+            print(f'''
+                    \n***** BOOK ANALYSIS *****
+                    \rOldest Book: {oldest_book}
+                    \r Newest Book: {newest_book}
+                    \r Total Books: {total_books}
+                    \r Number of Python Books: {python_books}''')
+            input('\n Press enter to return tot he main menu. ')
         else:
             print('GOODBYE')
             app_running = False
